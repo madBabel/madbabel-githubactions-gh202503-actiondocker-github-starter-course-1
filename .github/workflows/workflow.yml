@@ -1,18 +1,23 @@
 name:  Custom Action Docker
-on: 
-   
-run-name: Custom Actions - Docker
+on:
+  workflow_dispatch:
+    inputs:
+      name:
+        description: 'Name to greet'
+        required: false
+        default: 'World'
+
 jobs:
-    Hello:
-        runs-on: ubuntu-latest 
-        outputs:
-            time: ${{ steps.HelloToYou.outputs.time }}
-        steps:     
-            - name: Checkout
-              uses: actions/checkout@v2 
-            - name: HelloToYou
-              id: HelloToYou
-              uses: ./.github/actions/hello-to-you-docker   
-              with:
-                  name: 'Miguel' 
-    #GetTheTime
+  Hello:
+    runs-on: ubuntu-latest 
+    outputs:
+      time: ${{ steps.HelloToYou.outputs.time }}
+    steps:     
+      - name: Checkout
+        uses: actions/checkout@v2 
+      - name: HelloToYou
+        id: HelloToYou
+        uses: ./hello-to-you-docker   
+        with:
+          name: ${{ github.event.inputs.name }}
+  #GetTheTime
